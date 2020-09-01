@@ -32,9 +32,12 @@ jobs:
       arch: arm64
       name: "OpenJDK 8"
       jdk: openjdk8
-      script: 
-      - sudo apt-get install -y openjdk-8-jdk
-      - mvn clean verify -B
+      before_install:
+      - if [[ "${TRAVIS_CPU_ARCH}" == "arm64" ]]; then
+          sudo apt-get install -y maven openjdk-8-jdk;
+        fi
+      - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+      script: mvn clean verify -B
     - name: "OpenJDK 11"
       arch: arm64
       jdk: openjdk11
