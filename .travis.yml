@@ -30,7 +30,8 @@ jobs:
       name: "OpenJDK 8"
       jdk: openjdk8
       script: 
-      - sudo apt-get install maven 
+      - sudo apt-get install maven openjdk-8-jdk
+      - whereis java
       - mvn clean verify -B
     - name: "OpenJDK 11"
       arch: arm64
