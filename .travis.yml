@@ -1,6 +1,9 @@
 language: java
 
 before_install:
+  - if [[ "${TRAVIS_CPU_ARCH}" == "arm64" ]]; then
+     sudo apt-get install maven;
+    fi
   - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
 
 cache:
@@ -29,16 +32,11 @@ jobs:
       arch: arm64
       name: "OpenJDK 8"
       jdk: openjdk8
-      script: 
-      - sudo apt-get install maven openjdk-8-jdk
-      - whereis java
-      - mvn clean verify -B
+      script: mvn clean verify -B
     - name: "OpenJDK 11"
       arch: arm64
       jdk: openjdk11
-      script: 
-      - sudo apt-get install maven 
-      - mvn clean verify -B
+      script: mvn clean verify -B
     # GraalVM
     - name: "GraalVM 20.0.0 (8)"
       if: type != pull_request
@@ -52,9 +50,7 @@ jobs:
       arch: arm64
       if: type != pull_request
       install: . ./install-jdk.sh --url "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-20.2.0/graalvm-ce-java11-linux-aarch64-20.2.0.tar.gz"
-      script: 
-      - sudo apt-get install maven
-      - mvn clean verify -B
+      script: mvn clean verify -B
     - stage: deploy
       if: type != pull_request
       name: Deploy to Maven Repository
